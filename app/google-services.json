@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1024139506941",
+    "firebase_url": "https://ancea-f0334.firebaseio.com",
+    "project_id": "ancea-f0334",
+    "storage_bucket": "ancea-f0334.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1024139506941:android:7b4287cfca5a57ef5b7a94",
+        "android_client_info": {
+          "package_name": "com.projetofinal.ancea"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1024139506941-e9gq0mn069rouub5q5j7evq3oqmdobsc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.projetofinal.ancea",
+            "certificate_hash": "14e63773b1fae984027be409c2710c9e8e8c2ba3"
+          }
+        },
+        {
+          "client_id": "1024139506941-ko739iqianrdppgd38el7q0b9qon2sbh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyATEmTQOIUzjMcYEUT_d5hiseYHD99cLK8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1024139506941-ko739iqianrdppgd38el7q0b9qon2sbh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
