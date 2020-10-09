@@ -1,13 +1,12 @@
 package com.projetofinal.ancea.data.model;
 
 import com.google.firebase.database.DatabaseReference;
-import com.projetofinal.ancea.ConfiguracaoFirebase;
+import com.projetofinal.ancea.helper.ConfiguracaoFirebase;
 
 public class Usuario {
 
     private String idUsuario;
     private String nome;
-    private String sobrenome;
     private String email;
     private String senha;
 
@@ -36,14 +35,6 @@ public class Usuario {
 
     public void setNome(String nome) {
         this.nome = nome;
-    }
-
-    public String getSobrenome() {
-        return sobrenome;
-    }
-
-    public void setSobrenome(String sobrenome) {
-        this.sobrenome = sobrenome;
     }
 
     public String getEmail() {

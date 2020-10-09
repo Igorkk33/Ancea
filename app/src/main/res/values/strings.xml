@@ -1,11 +1,11 @@
 <resources>
     <string name="app_name">Ancea</string>
-    <string name="facebook_app_id">324199059001333</string>
-    <string name="fb_login_protocol_scheme">324199059001333</string>
+    <string name="facebook_application_id" translatable="false">324199059001333</string>
+    <string name="facebook_login_protocol_scheme" translatable="false">324199059001333</string>
     <string name="title_activity_login">LoginActivity</string>
     <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password</string>
-    <string name="action_sign_in">Sign in or register</string>
+    <string name="prompt_password">Senha</string>
+    <string name="action_sign_in">Entrar</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="welcome">"Welcome !"</string>
     <string name="invalid_username">Not a valid username</string>

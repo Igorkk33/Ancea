@@ -1,4 +1,4 @@
-package com.projetofinal.ancea;
+package com.projetofinal.ancea.helper;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
