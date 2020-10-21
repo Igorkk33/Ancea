@@ -5,24 +5,35 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.firebase.ui.auth.AuthUI;
-import com.firebase.ui.auth.ErrorCodes;
-import com.firebase.ui.auth.IdpResponse;
-import com.google.android.gms.common.Scopes;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.projetofinal.ancea.MainActivity;
-import com.projetofinal.ancea.PacienteActivity;
+import com.projetofinal.ancea.HomeActivity;
 import com.projetofinal.ancea.R;
+import com.projetofinal.ancea.data.model.Medico;
+import com.projetofinal.ancea.data.model.Paciente;
 import com.projetofinal.ancea.helper.ConfiguracaoFirebase;
+import com.projetofinal.ancea.helper.UsuarioFirebase;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -30,86 +41,164 @@ import java.util.List;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private static final String TAG = "Status";
-    private static final int RC_SIGN_IN = 123;
+    private TextInputEditText campoEmail, campoSenha;
+    private Button login;
+    private FirebaseAuth autenticacao;
+    private DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_login);
+        login = findViewById(R.id.buttonEntrada);
+        campoEmail = findViewById(R.id.editEntradaEmail);
+        campoSenha = findViewById(R.id.editEntradaSenha);
 
-        if (ConfiguracaoFirebase.getFirebaseAutenticacao().getCurrentUser() != null) {
-            startActivity(new Intent(this,MainActivity.class));
-            this.finish();
+    }
+
+    public void validarLogin(View view){
+
+        //Recuperar textos dos campos
+        String textoEmail = campoEmail.getText().toString();
+        String textoSenha = campoSenha.getText().toString();
+
+        if( !textoEmail.isEmpty() ) {//verifica e-mail
+            if( !textoSenha.isEmpty() ) {//verifica senha
+                Paciente paciente = new Paciente();
+                paciente.setEmail(textoEmail);
+                paciente.setSenha(textoSenha);
+
+                Medico medico = new Medico();
+                medico.setEmail(textoEmail);
+                medico.setSenha(textoSenha);
+
+                reference = reference.child("users");
+                Query pesquisaEmail = reference.orderByChild("email").equalTo(textoEmail);
+                Query pesquisaSenha = reference.orderByChild("senha").equalTo(textoSenha);
+                pesquisaEmail.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (snapshot.getKey().equals(medico)){
+                            medico.setEmail(snapshot.getValue().toString());
+                        }else {
+                            paciente.setEmail(snapshot.getValue().toString());
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+                pesquisaSenha.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (snapshot.getKey().equals(medico)){
+                            medico.setSenha(snapshot.getValue().toString());
+                            logarMedico(medico);
+                        }else{
+                            paciente.setSenha(snapshot.getValue().toString());
+                            logarPaciente(paciente);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+
+
+            }else{
+                Toast.makeText(LoginActivity.this,
+                        "Preencha a senha!",
+                        Toast.LENGTH_SHORT).show();
+            }
+        }else{
+            Toast.makeText(LoginActivity.this,
+                    "Preencha o email!",
+                    Toast.LENGTH_SHORT).show();
         }
 
     }
 
+    public void logarPaciente(Paciente paciente){
 
-    public void handleLoginRegister(View view){
-        // Choose authentication providers
-        AuthUI.IdpConfig googleIdp = new AuthUI.IdpConfig.GoogleBuilder()
-                .setScopes(Arrays.asList(Scopes.EMAIL,Scopes.PROFILE))
-                .build();
+        autenticacao = ConfiguracaoFirebase.getFirebaseAutenticacao();
+        autenticacao.signInWithEmailAndPassword(
+                paciente.getEmail(), paciente.getSenha()
+        ).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if( task.isSuccessful() ){
 
-        AuthUI.IdpConfig facebookIdp = new AuthUI.IdpConfig.FacebookBuilder()
-                .setPermissions(Arrays.asList("email", "public_profile"))
-                .build();
+                    //Verificar o tipo de usuário logado
+                    // "Motorista" / "Passageiro"
+                    UsuarioFirebase.redirecionaUsuarioLogado(LoginActivity.this);
 
-        List<AuthUI.IdpConfig> providers = Arrays.asList(
-                googleIdp, facebookIdp,
-                new AuthUI.IdpConfig.EmailBuilder().build(),
-                new AuthUI.IdpConfig.GoogleBuilder().build(),
-                new AuthUI.IdpConfig.FacebookBuilder().build());
+                }else {
 
-        Intent intent = AuthUI.getInstance().createSignInIntentBuilder()
-                .setAvailableProviders(providers)
-                .setAlwaysShowSignInMethodScreen(true).build();
-        startActivityForResult(intent,RC_SIGN_IN);
-    }
+                    String excecao = "";
+                    try {
+                        throw task.getException();
+                    }catch ( FirebaseAuthInvalidUserException e ) {
+                        excecao = "Usuário não está cadastrado.";
+                    }catch ( FirebaseAuthInvalidCredentialsException e ){
+                        excecao = "E-mail e senha não correspondem a um usuário cadastrado";
+                    }catch (Exception e){
+                        excecao = "Erro ao cadastrar usuário: "  + e.getMessage();
+                        e.printStackTrace();
+                    }
+                    Toast.makeText(LoginActivity.this,
+                            excecao,
+                            Toast.LENGTH_SHORT).show();
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == RC_SIGN_IN) {
-            if (resultCode == RESULT_OK) {
-                // Successfully signed in
-                FirebaseUser user = ConfiguracaoFirebase.getFirebaseAutenticacao().getCurrentUser();
-                Log.d(TAG, "onActivityResult" + user.getEmail());
-                // ...
-                if (user.getMetadata().getCreationTimestamp() == user.getMetadata().getLastSignInTimestamp()){
-                    Toast.makeText(this,"Bem-vindo", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(this,"Bem-vindo de volta.", Toast.LENGTH_SHORT).show();
-                }
-                startActivity(new Intent(this, MainActivity.class));
-                this.finish();
-            } else {
-                // Sign in failed. If response is null the user canceled the
-                // sign-in flow using the back button. Otherwise check
-                // response.getError().getErrorCode() and handle the error.
-                IdpResponse response = IdpResponse.fromResultIntent(data);
-                if (response == null){
-                    Log.d(TAG, "onActivityResult: usuario cancelou login");
-                } else {
-                    Log.e(TAG, "onActivityResult:", response.getError());
                 }
             }
-        }
+        });
+
     }
 
-    public void themeAndLogo() {
-        List<AuthUI.IdpConfig> providers = Collections.emptyList();
+    public void logarMedico(Medico medico){
 
-        // [START auth_fui_theme_logo]
-        startActivityForResult(
-                AuthUI.getInstance()
-                        .createSignInIntentBuilder()
-                        .setAvailableProviders(providers)
-                        .build(),
-                RC_SIGN_IN);
-        // [END auth_fui_theme_logo]
+        autenticacao = ConfiguracaoFirebase.getFirebaseAutenticacao();
+        autenticacao.signInWithEmailAndPassword(
+                medico.getEmail(), medico.getSenha()
+        ).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if( task.isSuccessful() ){
+
+                    //Verificar o tipo de usuário logado
+                    // "Motorista" / "Passageiro"
+                    UsuarioFirebase.redirecionaUsuarioLogado(LoginActivity.this);
+
+                }else {
+
+                    String excecao = "";
+                    try {
+                        throw task.getException();
+                    }catch ( FirebaseAuthInvalidUserException e ) {
+                        excecao = "Usuário não está cadastrado.";
+                    }catch ( FirebaseAuthInvalidCredentialsException e ){
+                        excecao = "E-mail e senha não correspondem a um usuário cadastrado";
+                    }catch (Exception e){
+                        excecao = "Erro ao cadastrar usuário: "  + e.getMessage();
+                        e.printStackTrace();
+                    }
+                    Toast.makeText(LoginActivity.this,
+                            excecao,
+                            Toast.LENGTH_SHORT).show();
+
+                }
+            }
+        });
+
     }
+
 }
 
 

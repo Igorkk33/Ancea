@@ -4,16 +4,45 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/laranja_fundo"
     tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/textView2"
+    <Button
+        android:id="@+id/buttonEntrar"
+        style="@style/FirebaseUI.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="fire"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="416dp"
+        android:background="@color/laranja_fundo"
+        android:fontFamily="@font/raleway_light"
+        android:onClick="abrirTelaLogin"
+        android:text="Entrar"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="@color/design_default_color_background"
+        app:backgroundTint="@color/laranja_fundo"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/buttonCadastro"
+        style="@style/FirebaseUI.Button"
+        android:layout_width="190dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="32dp"
+        android:background="@color/laranja_fundo"
+        android:fontFamily="@font/raleway_light"
+        android:onClick="abrirTelaCadastro"
+        android:text="Primeira vez? Cadastre-se"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:textSize="12sp"
+        app:backgroundTint="@color/laranja_fundo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonEntrar"
+        app:layout_constraintVertical_bias="0.026" />
 </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -6,9 +6,12 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
@@ -16,7 +19,11 @@ import com.projetofinal.ancea.api.NotificacaoService;
 import com.projetofinal.ancea.data.model.Notificacao;
 import com.projetofinal.ancea.data.model.NotificacaoDados;
 import com.projetofinal.ancea.helper.ConfiguracaoFirebase;
+import com.projetofinal.ancea.ui.login.CadastroActivity;
 import com.projetofinal.ancea.ui.login.LoginActivity;
+
+import java.io.FileInputStream;
+import java.io.IOException;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -40,15 +47,16 @@ public class MainActivity extends AppCompatActivity {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        if (ConfiguracaoFirebase.getFirebaseAutenticacao().getCurrentUser() == null){
-            startLoginActivity();
-        }
     }
 
-    private void startLoginActivity(){
-        startActivity(new Intent(this,LoginActivity.class));
-        finish();
+    public void abrirTelaLogin(View view){
+        startActivity( new Intent(this, LoginActivity.class));
     }
+
+    public void abrirTelaCadastro(View view){
+        startActivity( new Intent(this, CadastroActivity.class));
+    }
+
 
     public void enviarNotificacao(View view){
         String to = "";

@@ -1,7 +1,5 @@
 <resources>
     <string name="app_name">Ancea</string>
-    <string name="facebook_application_id" translatable="false">324199059001333</string>
-    <string name="facebook_login_protocol_scheme" translatable="false">324199059001333</string>
     <string name="title_activity_login">LoginActivity</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Senha</string>
@@ -22,4 +20,5 @@
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
     <string name="default_notification_channel_id">fcm_default_channel</string>
+    <string name="title_activity_medico">MedicoActivity</string>
 </resources>

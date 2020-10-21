@@ -1,5 +1,8 @@
 package com.projetofinal.ancea.data.model;
 
+import android.util.Log;
+
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.projetofinal.ancea.helper.ConfiguracaoFirebase;
 
@@ -14,12 +17,6 @@ public class Usuario {
 
     }
 
-    public void salvar(){
-        DatabaseReference firebase = ConfiguracaoFirebase.getFirebaseDatabase();
-        firebase.child("usuarios")
-                .child( this.idUsuario )
-                .setValue( this );
-    }
 
     public String getIdUsuario() {
         return idUsuario;

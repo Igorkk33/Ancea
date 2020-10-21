@@ -14,7 +14,7 @@ import androidx.core.app.NotificationCompat;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
-import com.projetofinal.ancea.PacienteActivity;
+import com.projetofinal.ancea.HomeActivity;
 import com.projetofinal.ancea.R;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
@@ -37,7 +37,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private void enviarNotificacao(String titulo, String corpo){
         String canal = getString(R.string.default_notification_channel_id);
         Uri uriSom = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        Intent intent = new Intent(this, PacienteActivity.class);
+        Intent intent = new Intent(this, HomeActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
 
         NotificationCompat.Builder notificacao = new NotificationCompat.Builder(this, canal)
