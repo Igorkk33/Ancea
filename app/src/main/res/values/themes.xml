@@ -22,4 +22,6 @@
     <style name="Theme.Ancea.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.Ancea.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+
 </resources>

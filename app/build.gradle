@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         applicationId "com.projetofinal.ancea"
-        minSdkVersion 16
+        minSdkVersion 21
         resConfigs "pt_br"
         targetSdkVersion 30
         versionCode 1
@@ -31,35 +31,30 @@ android {
 
     buildFeatures {
 
-        dataBinding = true
-
-        // for view binding:
-        viewBinding = true
     }
 }
 
 dependencies {
 
-    implementation 'androidx.navigation:navigation-fragment:2.3.0'
-    implementation 'androidx.navigation:navigation-ui:2.3.0'
-    def multidex_version = "2.0.1"
-    implementation 'com.android.support:multidex:1.0.3'
-    implementation "androidx.multidex:multidex:$multidex_version"
-    implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'com.google.android.material:material:1.2.1'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.2'
-    implementation 'com.google.firebase:firebase-database:19.5.0'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.navigation:navigation-fragment:2.3.1'
+    implementation 'androidx.navigation:navigation-ui:2.3.1'
+    implementation 'androidx.multidex:multidex:2.0.1'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.3'
+    implementation 'com.google.firebase:firebase-analytics:18.0.0'
+    implementation 'com.google.firebase:firebase-database:19.5.1'
     implementation 'com.google.firebase:firebase-crashlytics:17.2.2'
     implementation 'com.firebaseui:firebase-ui-auth:6.2.0'
     implementation 'com.google.firebase:firebase-perf:19.0.9'
-    implementation 'com.google.firebase:firebase-auth:19.4.0'
-    implementation 'com.google.firebase:firebase-messaging:20.3.0'
-    implementation 'com.google.firebase:firebase-analytics:17.6.0'
+    implementation 'com.google.firebase:firebase-auth:20.0.0'
+    implementation 'com.google.firebase:firebase-messaging:21.0.0'
     implementation 'com.google.gms:google-services:4.3.4'
     implementation 'com.google.android.gms:play-services-auth:18.1.0'
-    implementation 'com.google.android.gms:play-services-basement:17.4.0'
+    implementation 'com.google.android.gms:play-services-basement:17.5.0'
     implementation 'com.google.android.gms:play-services-tasks:17.2.0'
-    implementation 'com.google.android.play:core:1.8.2'
+    implementation 'com.google.android.play:core:1.8.3'
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
     implementation 'androidx.annotation:annotation:1.1.0'

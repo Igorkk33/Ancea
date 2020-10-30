@@ -14,13 +14,11 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputSenha"
-        android:layout_width="347dp"
-        android:layout_height="61dp"
+        android:layout_width="0dp"
+        android:layout_height="54dp"
         android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
         android:textColorHint="@color/white"
         app:boxBackgroundColor="@color/laranja_fundo"
         app:boxStrokeColor="@color/white"
@@ -32,7 +30,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/editEntradaSenha"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:fontFamily="@font/raleway_light"
             android:hint="Senha"
             android:inputType="textPassword"
@@ -71,7 +69,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/raleway_light"
         android:gravity="center"
-        android:onClick="validarLogin"
+        android:onClick="validarLoginUsuario"
         android:text="Entrar"
         android:textSize="18sp"
         app:backgroundTint="@color/laranja_fundo"
@@ -81,4 +79,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInputSenha"
         app:layout_constraintVertical_bias="0.084" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
