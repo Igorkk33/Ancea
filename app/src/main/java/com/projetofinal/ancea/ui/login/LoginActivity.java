@@ -3,12 +3,12 @@ package com.projetofinal.ancea.ui.login;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -17,8 +17,6 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.projetofinal.ancea.R;
 import com.projetofinal.ancea.data.model.Usuario;
 import com.projetofinal.ancea.helper.ConfiguracaoFirebase;
@@ -30,6 +28,8 @@ public class LoginActivity extends AppCompatActivity  {
 
     private TextInputEditText campoEmail, campoSenha;
     private FirebaseAuth autenticacao;
+    private SwitchCompat tipoUsuario;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -37,12 +37,12 @@ public class LoginActivity extends AppCompatActivity  {
         setContentView(R.layout.activity_login);
         campoEmail = findViewById(R.id.editEntradaEmail);
         campoSenha = findViewById(R.id.editEntradaSenha);
-
+        tipoUsuario = findViewById(R.id.tipoUsuario);
     }
 
     public void validarLoginUsuario(View view){
-
         //Recuperar textos dos campos
+
         String textoEmail = Objects.requireNonNull(campoEmail.getText()).toString();
         String textoSenha = Objects.requireNonNull(campoSenha.getText()).toString();
 
@@ -54,17 +54,16 @@ public class LoginActivity extends AppCompatActivity  {
 
                 logarUsuario( usuario );
 
-            }else{
-                Toast.makeText(LoginActivity.this,
-                        "Preencha a senha!",
-                        Toast.LENGTH_SHORT).show();
-            }
-        }else{
-            Toast.makeText(LoginActivity.this,
-                    "Preencha o email!",
-                    Toast.LENGTH_SHORT).show();
-        }
-
+                }else{
+                        Toast.makeText(LoginActivity.this,
+                                "Preencha a senha!",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                }else{
+                    Toast.makeText(LoginActivity.this,
+                            "Preencha o email!",
+                            Toast.LENGTH_SHORT).show();
+                }
     }
 
     public void logarUsuario(Usuario usuario){
@@ -76,11 +75,15 @@ public class LoginActivity extends AppCompatActivity  {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if( task.isSuccessful() ){
-
                     //Verificar o tipo de usuário logado
-                    // "Motorista" / "Passageiro"
+                    if(verificaTipoUsuario().equals("Paciente")){
+                        usuario.setTipo("Paciente");
+                    } else{
+                        usuario.setTipo("Médico");
+                    }
+                    usuario.salvar();
                     UsuarioFirebase.redirecionaUsuarioLogado(LoginActivity.this);
-
+                    finish();
                 }else {
 
                     String excecao = "";
@@ -106,6 +109,9 @@ public class LoginActivity extends AppCompatActivity  {
 
     }
 
+    public String verificaTipoUsuario(){
+        return tipoUsuario.isChecked() ? "Médico" : "Paciente";
+    }
 
 }
 

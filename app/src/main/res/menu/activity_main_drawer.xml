@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_principal"
-            android:icon="@drawable/ic_baseline_inbox"
-            android:title="@string/menu_principal" />
+            android:id="@+id/ajuda"
+            android:icon="@drawable/ic_baseline_help_outline_24"
+            android:title="Ajuda" />
+        <item
+            android:id="@+id/sobre"
+            android:icon="@drawable/ic_baseline_sobre"
+            android:title="Sobre" />
+        <item
+            android:id="@+id/sair"
+            android:icon="@drawable/ic_baseline_sair"
+            android:title="Sair" />
     </group>
 
-    <item android:title="Entre em contato">
-        <menu>
-
-            <item
-                android:id="@+id/nav_sobre"
-                android:icon="@drawable/ic_baseline_sobre"
-                android:title="@string/menu_sobre"/>
-        </menu>
-    </item>
 </menu>

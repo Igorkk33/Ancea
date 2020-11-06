@@ -20,8 +20,6 @@ import com.projetofinal.ancea.activity.MedicoActivity;
 import com.projetofinal.ancea.activity.PacienteActivity;
 import com.projetofinal.ancea.data.model.Usuario;
 
-import org.jetbrains.annotations.NotNull;
-
 public class UsuarioFirebase {
 
     public static FirebaseUser getUsuarioAtual() {
@@ -60,37 +58,39 @@ public class UsuarioFirebase {
 
     }
 
+
     public static void redirecionaUsuarioLogado(final Activity activity){
+
 
         FirebaseUser user = getUsuarioAtual();
         if(user != null ){
             Log.d("resultado", "onDataChange: " + getIdentificadorUsuario());
             DatabaseReference usuariosRef = ConfiguracaoFirebase.getFirebaseDatabase()
-                    .child("usuarios")
-                    .child( getIdentificadorUsuario())
-                    .child("tipo");
-            usuariosRef.addValueEventListener(new ValueEventListener() {
+                    .child("usuarios");
+            usuariosRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
-                public void onDataChange(@NotNull DataSnapshot snapshot) {
-                    Log.d("resultado:", "f" +  snapshot);
-                    String tipo = snapshot.toString();
-
-                        Intent i;
-                        if (tipo.equals("Paciente")){
-                            i = new Intent(activity, PacienteActivity.class);
-                        }else{
-                            i = new Intent(activity, MedicoActivity.class);
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    String t = "";
+                    Usuario u = null;
+                    Log.d("resultado", "onDataChange: " + dataSnapshot.toString() );
+                    for (DataSnapshot ds: dataSnapshot.getChildren()){
+                        u = ds.getValue(Usuario.class);
+                    }
+                        t = u.getTipo();
+                        Log.i("tipo", u.getTipo());
+                        if (t.equals("Paciente")){
+                            activity.startActivity(new Intent(activity,PacienteActivity.class));
+                        } else{
+                            activity.startActivity(new Intent(activity,MedicoActivity.class));
                         }
-                        activity.startActivity(i);
-
-
-                }
+                    }
 
                 @Override
-                public void onCancelled(@NonNull DatabaseError error) {
+                public void onCancelled(@NonNull DatabaseError databaseError) {
 
                 }
             });
+
         }
 
     }

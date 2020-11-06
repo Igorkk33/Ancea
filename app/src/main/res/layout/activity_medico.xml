@@ -9,6 +9,7 @@
     tools:openDrawer="start">
 
     <include
+        android:id="@+id/include_medico"
         layout="@layout/app_bar_medico"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
@@ -20,6 +21,9 @@
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header_main"
-        app:menu="@menu/activity_main_drawer" />
+        app:menu="@menu/activity_main_drawer"
+        app:itemIconTint="@color/laranja_fundo"
+        app:itemTextColor="@color/laranja_fundo"
+        app:itemTextAppearance="@style/NavigationItemAppearance"/>
 
 </androidx.drawerlayout.widget.DrawerLayout>

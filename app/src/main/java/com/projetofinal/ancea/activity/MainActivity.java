@@ -6,9 +6,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.projetofinal.ancea.R;
@@ -17,6 +19,8 @@ import com.projetofinal.ancea.data.model.Notificacao;
 import com.projetofinal.ancea.data.model.NotificacaoDados;
 import com.projetofinal.ancea.ui.login.CadastroActivity;
 import com.projetofinal.ancea.ui.login.LoginActivity;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 
@@ -41,18 +45,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        OkHttpClient client = new OkHttpClient.Builder().addInterceptor(new Interceptor() {
-            @Override
-            public okhttp3.Response intercept(Chain chain) throws IOException {
-                Request newRequest  = chain.request().newBuilder()
-                        .addHeader("Authorization", "Bearer " +
-                                "AAAA7nN4tP0:APA91bFllY6uJU8857blVmaRdNTNWWFjjqRn96_ND0U7acfRxxlaB86qSttEu2vuEE-2s5KshTmNZmSZeeCR4lFoFDL-ItgoiVuk5J8Rob60uRErgtVQRvgOP0ZN13o6Mlkx67m8KBO-")
-                        .build();
-                return chain.proceed(newRequest);
-            }
-        }).build();
-        baseUrl = "https://fcm.googleapis.com/v1/projects/ancea-f0334/messages/";
-        retrofit = new Retrofit.Builder().client(client).baseUrl(baseUrl)
+        baseUrl = "https://fcm.googleapis.com/fcm/";
+        retrofit = new Retrofit.Builder().baseUrl(baseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -76,24 +70,28 @@ public class MainActivity extends AppCompatActivity {
 
         call.enqueue(new Callback<NotificacaoDados>() {
             @Override
-            public void onResponse(Call<NotificacaoDados> call, Response<NotificacaoDados> response) {
+            public void onResponse(@NotNull Call<NotificacaoDados> call, @NotNull Response<NotificacaoDados> response) {
                 
             }
 
             @Override
-            public void onFailure(Call<NotificacaoDados> call, Throwable t) {
+            public void onFailure(@NotNull Call<NotificacaoDados> call, @NotNull Throwable t) {
 
             }
         });
     }
 
     public void recuperarToken(){
-        FirebaseMessaging.getInstance().getToken().addOnSuccessListener(new OnSuccessListener<String>() {
-            @Override
-            public void onSuccess(String s) {
-                Log.i("token: ", s);
-            }
-        });
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if (!task.isSuccessful()) {
+                            Log.w("Resultado", "Fetching FCM registration token failed", task.getException());
+                        }
+
+                    }
+                });
     }
 }
 

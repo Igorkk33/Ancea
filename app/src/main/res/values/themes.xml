@@ -2,8 +2,8 @@
     <!-- Base application theme. -->
     <style name="Theme.Ancea" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_500</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorPrimary">@color/white</item>
+        <item name="colorPrimaryVariant">@color/laranja_fundo</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/teal_200</item>
@@ -17,6 +17,12 @@
     <style name="Theme.Ancea.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="NavigationItemAppearance">
+        <item name="android:textColor">@color/laranja_fundo</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:fontFamily">@font/raleway_light</item>
     </style>
 
     <style name="Theme.Ancea.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />

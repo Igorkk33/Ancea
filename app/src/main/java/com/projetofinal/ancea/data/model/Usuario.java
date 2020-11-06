@@ -13,7 +13,7 @@ public class Usuario {
     private String email;
     private String senha;
     private String tipo;
-    private String associacao;
+    private Usuario vinculacao;
 
     public Usuario(){
 
@@ -21,14 +21,14 @@ public class Usuario {
 
     public void salvar(){
         DatabaseReference firebaseRef = ConfiguracaoFirebase.getFirebaseDatabase();
-        DatabaseReference usuarios = firebaseRef.child( "usuarios" );
+        DatabaseReference usuarios = firebaseRef.child("usuarios");
         Map<String,Object> map = new HashMap<String, Object>();
         map.put("idUsuario",getIdUsuario());
         map.put("nome",getNome());
         map.put("email",getEmail());
         map.put("senha",getSenha());
         map.put("tipo",getTipo());
-        map.put("associacao",null);
+        map.put("vinculacao",null);
         usuarios.push().setValue(map);
     }
 
@@ -40,12 +40,12 @@ public class Usuario {
         this.tipo = tipo;
     }
 
-    public String getAssociacao() {
-        return associacao;
+    public Usuario getVinculacao() {
+        return vinculacao;
     }
 
-    public void setAssociacao(String associacao) {
-        this.associacao = associacao;
+    public void setVinculacao(Usuario vinculacao) {
+        this.vinculacao = vinculacao;
     }
 
     public String getIdUsuario() {

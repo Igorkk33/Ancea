@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -17,7 +18,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
-import com.projetofinal.ancea.activity.MainActivity;
 import com.projetofinal.ancea.R;
 import com.projetofinal.ancea.activity.MedicoActivity;
 import com.projetofinal.ancea.activity.PacienteActivity;
@@ -30,8 +30,9 @@ import java.util.Objects;
 public class CadastroActivity extends AppCompatActivity {
 
     private TextInputEditText campoNome, campoEmail, campoSenha;
-    private Switch switchTipoUsuario;
+    private SwitchCompat switchTipoUsuario;
     private FirebaseAuth autenticacao;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,9 +51,9 @@ public class CadastroActivity extends AppCompatActivity {
     public void validarCadastroUsuario(View view){
 
         //Recuperar textos dos campos
-        String textoNome  = campoNome.getText().toString();
-        String textoEmail = campoEmail.getText().toString();
-        String textoSenha = campoSenha.getText().toString();
+        String textoNome  = Objects.requireNonNull(campoNome.getText()).toString();
+        String textoEmail = Objects.requireNonNull(campoEmail.getText()).toString();
+        String textoSenha = Objects.requireNonNull(campoSenha.getText()).toString();
 
         if( !textoNome.isEmpty() ) {//verifica nome
             if( !textoEmail.isEmpty() ) {//verifica e-mail
@@ -62,7 +63,7 @@ public class CadastroActivity extends AppCompatActivity {
                     usuario.setNome( textoNome );
                     usuario.setEmail( textoEmail );
                     usuario.setSenha( textoSenha );
-                    usuario.setTipo( verificaTipoUsuario() );
+
 
                     cadastrarUsuario( usuario );
 
@@ -108,7 +109,9 @@ public class CadastroActivity extends AppCompatActivity {
                         // Redireciona o usuário com base no seu tipo
                         // Se o usuário for passageiro chama a activity maps
                         // senão chama a activity requisicoes
-                        if( verificaTipoUsuario() == "P" ){
+                        if(verificaTipoUsuario().equals("Paciente")){
+                            usuario.setTipo("Paciente");
+                            usuario.salvar();
                             startActivity(new Intent(CadastroActivity.this, PacienteActivity.class ));
                             finish();
 
@@ -117,6 +120,8 @@ public class CadastroActivity extends AppCompatActivity {
                                     Toast.LENGTH_SHORT).show();
 
                         }else {
+                            usuario.setTipo("Médico");
+                            usuario.salvar();
                             startActivity(new Intent(CadastroActivity.this, MedicoActivity.class ));
                             finish();
 
@@ -161,7 +166,7 @@ public class CadastroActivity extends AppCompatActivity {
     }
 
     public String verificaTipoUsuario(){
-        return switchTipoUsuario.isChecked() ? "Paciente" : "Médico" ;
+        return switchTipoUsuario.isChecked() ? "Médico" : "Paciente" ;
     }
 
 
