@@ -1,5 +1,6 @@
 package com.projetofinal.ancea.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -31,6 +32,7 @@ public class MedicoActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.sair){
             autenticacao.signOut();
+            startActivity(new Intent(this, MainActivity.class));
             finish();
         }
 

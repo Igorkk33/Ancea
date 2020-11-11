@@ -71,13 +71,11 @@ public class UsuarioFirebase {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     String t = "";
-                    Usuario u = null;
                     Log.d("resultado", "onDataChange: " + dataSnapshot.toString() );
                     for (DataSnapshot ds: dataSnapshot.getChildren()){
-                        u = ds.getValue(Usuario.class);
+                        t = ds.child("tipo").getValue(String.class);
                     }
-                        t = u.getTipo();
-                        Log.i("tipo", u.getTipo());
+                        Log.i("tipo", t);
                         if (t.equals("Paciente")){
                             activity.startActivity(new Intent(activity,PacienteActivity.class));
                         } else{

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.projetofinal.ancea" >
+    package="com.projetofinal.ancea">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -17,15 +17,18 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
         <activity
+            android:name=".activity.OcorrenciaActivity"
+            android:label="@string/title_activity_ocorrencia"
+            android:theme="@style/Theme.Ancea.NoActionBar">
+        </activity>
+        <activity
             android:name=".activity.MedicoActivity"
             android:label="@string/title_activity_medico"
-            android:theme="@style/Theme.Ancea.NoActionBar" >
-        </activity>
+            android:theme="@style/Theme.Ancea.NoActionBar" />
         <activity
             android:name=".activity.PacienteActivity"
             android:label="@string/title_activity_paciente"
-            android:theme="@style/Theme.Ancea.NoActionBar" >
-        </activity>
+            android:theme="@style/Theme.Ancea.NoActionBar" />
         <activity
             android:name="com.google.firebase.auth.internal.FederatedSignInActivity"
             android:excludeFromRecents="true"
@@ -42,13 +45,12 @@
             android:name=".ui.login.LoginActivity"
             android:label="@string/title_activity_login"
             android:theme="@style/Theme.Ancea.NoActionBar" />
-        <activity android:name=".activity.MainActivity" >
+        <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
 
             <!--
          Set custom default icon. This is used when no icon is set for incoming notification messages.
@@ -75,7 +77,7 @@
         <service
             android:name=".api.UsuarioService"
             android:exported="false"
-            android:label="UsuarioService" >
+            android:label="UsuarioService">
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
 
@@ -85,7 +87,7 @@
         <service
             android:name=".api.ServiceConnection"
             android:exported="false"
-            android:label="ServiceConnection" >
+            android:label="ServiceConnection">
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
 
@@ -95,7 +97,7 @@
         <service
             android:name=".api.MyFirebaseMessagingService"
             android:exported="false"
-            android:label="MyFirebaseMessagingService" >
+            android:label="MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>

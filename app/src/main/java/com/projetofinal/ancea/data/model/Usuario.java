@@ -3,7 +3,9 @@ package com.projetofinal.ancea.data.model;
 import com.google.firebase.database.DatabaseReference;
 import com.projetofinal.ancea.helper.ConfiguracaoFirebase;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Usuario {
@@ -14,6 +16,7 @@ public class Usuario {
     private String senha;
     private String tipo;
     private Usuario vinculacao;
+    private List<Ocorrencias> ocorrencias = new ArrayList<>();
 
     public Usuario(){
 
@@ -78,5 +81,13 @@ public class Usuario {
 
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+
+    public List<Ocorrencias> getOcorrencias() {
+        return ocorrencias;
+    }
+
+    public void setOcorrencias(List<Ocorrencias> ocorrencias) {
+        this.ocorrencias = ocorrencias;
     }
 }

@@ -17,6 +17,7 @@ import com.projetofinal.ancea.R;
 import com.projetofinal.ancea.api.NotificacaoService;
 import com.projetofinal.ancea.data.model.Notificacao;
 import com.projetofinal.ancea.data.model.NotificacaoDados;
+import com.projetofinal.ancea.helper.UsuarioFirebase;
 import com.projetofinal.ancea.ui.login.CadastroActivity;
 import com.projetofinal.ancea.ui.login.LoginActivity;
 
@@ -59,7 +60,6 @@ public class MainActivity extends AppCompatActivity {
     public void abrirTelaCadastro(View view){
         startActivity( new Intent(this, CadastroActivity.class));
     }
-
 
     public void enviarNotificacao(View view){
         String to = "";
